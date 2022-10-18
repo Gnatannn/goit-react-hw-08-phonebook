@@ -13,7 +13,7 @@ export const PhoneBook = () => {
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
-  });
+  }, [contacts]);
 
   const handleSubmit = (values, { resetForm }) => {
     resetForm();
