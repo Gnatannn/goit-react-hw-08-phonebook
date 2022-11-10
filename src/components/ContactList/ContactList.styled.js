@@ -5,6 +5,7 @@ export const List = styled.ul`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   list-style: none;
   flex-wrap: wrap;
   gap: 10px;
@@ -16,8 +17,10 @@ export const ListItem = styled.li`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 20%;
-  height: 80px;
+  width: 50%;
+  min-width: 100px;
+  max-width: 300px;
+  height: 100px;
   border: 1px solid green;
   padding: 15px;
   text-align: center;
