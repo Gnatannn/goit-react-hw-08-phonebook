@@ -1,4 +1,4 @@
-import { PropTypes } from 'prop-types';
+// import { PropTypes } from 'prop-types';
 import {
   List,
   ListItem,
@@ -6,6 +6,7 @@ import {
   ListItemText,
   ListItemButton,
 } from 'components/ContactList/ContactList.styled.js';
+
 export const ContactList = ({ findContacts, deleteContact }) => {
   return (
     <List>
@@ -24,13 +25,13 @@ export const ContactList = ({ findContacts, deleteContact }) => {
   );
 };
 
-ContactList.propTypes = {
-  findContacts: PropTypes.arrayOf(
-    PropTypes.exact({
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-    })
-  ),
-  deleteContact: PropTypes.func.isRequired,
-};
+// ContactList.propTypes = {
+//   findContacts: PropTypes.arrayOf(
+//     PropTypes.exact({
+//       name: PropTypes.string.isRequired,
+//       number: PropTypes.string.isRequired,
+//       id: PropTypes.string.isRequired,
+//     })
+//   ),
+//   deleteContact: PropTypes.func.isRequired,
+// };

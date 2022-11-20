@@ -1,41 +1,48 @@
 import { ContactList } from 'components/ContactList/ContactList';
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 import { Filter } from 'components/Filter/Filter';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Container } from 'components/PhoneBook/PhoneBook.styled';
 import { useDispatch, useSelector } from 'react-redux';
+// import {
+//   addContact,
+//   getContactsData,
+//   updateFilter,
+//   deleteCard,
+// } from 'redux/contactsSlice';
 import {
-  addContact,
-  getContactsData,
-  updateFilter,
-  deleteCard,
-} from 'redux/contactsSlice';
+  getContacts,
+  getStatusFilter,
+  getError,
+  getIsLoading,
+} from 'redux/selectors';
+import { addContact, deleteCard, fetchContacts } from 'redux/operations';
+import { updateFilter } from 'redux/contactsSlice';
+import { useEffect } from 'react';
 
 export const PhoneBook = () => {
-  // const [contacts, setContacts] = useState(() => {
-  //   return JSON.parse(localStorage.getItem('contacts')) || [];
-  // });
-  // const [filter, setFilter] = useState('');
-
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }, [contacts]);
-
   const dispatch = useDispatch();
-  const { contactsList, filter } = useSelector(getContactsData);
+  const contactsList = useSelector(getContacts);
+  const filter = useSelector(getStatusFilter);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const handleSubmit = (values, { resetForm }) => {
     resetForm();
 
-    const { name, number } = values;
-    const contact = {
-      name,
-      number,
-    };
-    const sameContact = checkContactsBook(contact, contactsList);
+    // const { name, number } = values;
+    // const contact = {
+    //   name,
+    //   number,
+    // };
+    const sameContact = checkContactsBook(values, contactsList);
     sameContact
-      ? alert(`${contact.name} has been already added`)
-      : dispatch(addContact({ ...values, id: nanoid() }));
+      ? alert(`${values.name} has been already added`)
+      : dispatch(addContact(values));
   };
 
   const checkContactsBook = (contact, contactsList) => {
@@ -65,10 +72,12 @@ export const PhoneBook = () => {
       <h1>Phonebook</h1>
       <ContactForm onSubmit={handleSubmit} />
 
-      {!!contactsList.length && (
+      {contactsList.length > 0 && (
         <>
           <h2>Contacts</h2>
           <Filter value={filter} onFilterChange={onFilterChange} />
+          {isLoading && !error && <b>Please wait...</b>}
+          {error && <p>{error}</p>}
         </>
       )}
 
