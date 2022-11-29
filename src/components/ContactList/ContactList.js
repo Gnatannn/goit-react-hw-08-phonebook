@@ -1,4 +1,3 @@
-// import { PropTypes } from 'prop-types';
 import {
   List,
   ListItem,
@@ -6,8 +5,27 @@ import {
   ListItemText,
   ListItemButton,
 } from 'components/ContactList/ContactList.styled.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteCard } from 'redux/operations';
+import { getContacts, getStatusFilter } from 'redux/selectors';
 
-export const ContactList = ({ findContacts, deleteContact }) => {
+export const ContactList = () => {
+  const dispatch = useDispatch();
+  const contactsList = useSelector(getContacts);
+  const filter = useSelector(getStatusFilter);
+
+  const onFilterContact = () => {
+    return contactsList.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  };
+
+  const deleteContact = contactId => {
+    dispatch(deleteCard(contactId));
+  };
+
+  const findContacts = onFilterContact();
+
   return (
     <List>
       {findContacts.map(({ name, number, id }) => {
@@ -24,14 +42,3 @@ export const ContactList = ({ findContacts, deleteContact }) => {
     </List>
   );
 };
-
-// ContactList.propTypes = {
-//   findContacts: PropTypes.arrayOf(
-//     PropTypes.exact({
-//       name: PropTypes.string.isRequired,
-//       number: PropTypes.string.isRequired,
-//       id: PropTypes.string.isRequired,
-//     })
-//   ),
-//   deleteContact: PropTypes.func.isRequired,
-// };

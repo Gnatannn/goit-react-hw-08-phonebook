@@ -1,4 +1,3 @@
-import { PropTypes } from 'prop-types';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import {
@@ -8,6 +7,9 @@ import {
   ButtonSubmit,
   Error,
 } from 'components/ContactForm/ContactForm.styled';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact } from 'redux/operations';
+import { getContacts } from 'redux/selectors';
 
 const schema = yup.object().shape({
   name: yup
@@ -33,12 +35,31 @@ const initialValues = {
   number: '',
 };
 
-export const ContactForm = ({ onSubmit }) => {
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contactsList = useSelector(getContacts);
+
+  const handleSubmit = (values, { resetForm }) => {
+    const sameContact = checkContactsBook(values, contactsList);
+    if (sameContact) {
+      alert(`${values.name} has been already added`);
+    } else {
+      dispatch(addContact(values));
+      resetForm();
+    }
+  };
+
+  const checkContactsBook = (contact, contactsList) => {
+    return contactsList.find(
+      item => item.name.toLowerCase() === contact.name.toLowerCase()
+    );
+  };
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={schema}
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
     >
       <FormElement autoComplete="off">
         <Label htmlFor="name">Name</Label>
@@ -52,8 +73,4 @@ export const ContactForm = ({ onSubmit }) => {
       </FormElement>
     </Formik>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };

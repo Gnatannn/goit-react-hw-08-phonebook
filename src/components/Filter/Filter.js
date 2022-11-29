@@ -1,7 +1,16 @@
-import { PropTypes } from 'prop-types';
 import { Wrapper, Input, Label } from 'components/Filter/Filter.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateFilter } from 'redux/contactsSlice';
+import { getStatusFilter } from 'redux/selectors';
 
-export const Filter = ({ value, onFilterChange }) => {
+export const Filter = () => {
+  const dispatch = useDispatch();
+  const filter = useSelector(getStatusFilter);
+
+  const onFilterChange = e => {
+    dispatch(updateFilter(e.currentTarget.value));
+  };
+
   return (
     <Wrapper>
       <Label htmlFor="text">Find contacts by name</Label>
@@ -9,14 +18,9 @@ export const Filter = ({ value, onFilterChange }) => {
         type="text"
         name="filter"
         placeholder="Please find ..."
-        value={value}
+        value={filter}
         onChange={onFilterChange}
       />
     </Wrapper>
   );
-};
-
-Filter.propTypes = {
-  value: PropTypes.string.isRequired,
-  onFilterChange: PropTypes.func.isRequired,
 };
