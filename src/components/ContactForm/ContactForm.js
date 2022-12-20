@@ -8,8 +8,8 @@ import {
   Error,
 } from 'components/ContactForm/ContactForm.styled';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/operations';
-import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/contacts/operations';
+import { selectAllContacts } from 'redux/contacts/selectors';
 
 const schema = yup.object().shape({
   name: yup
@@ -37,7 +37,7 @@ const initialValues = {
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contactsList = useSelector(getContacts);
+  const contactsList = useSelector(selectAllContacts);
 
   const handleSubmit = (values, { resetForm }) => {
     const sameContact = checkContactsBook(values, contactsList);

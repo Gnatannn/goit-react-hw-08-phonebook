@@ -6,13 +6,13 @@ import {
   ListItemButton,
 } from 'components/ContactList/ContactList.styled.js';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteCard } from 'redux/operations';
-import { getContacts, getStatusFilter } from 'redux/selectors';
+import { deleteCard } from 'redux/contacts/operations';
+import { selectAllContacts, selectFilter } from 'redux/contacts/selectors';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
-  const contactsList = useSelector(getContacts);
-  const filter = useSelector(getStatusFilter);
+  const contactsList = useSelector(selectAllContacts);
+  const filter = useSelector(selectFilter);
 
   const onFilterContact = () => {
     return contactsList.filter(contact =>
