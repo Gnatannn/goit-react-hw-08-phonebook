@@ -7,7 +7,7 @@ export default function Home() {
     <HomeInfo>
       <Greeting>Online Phonebook</Greeting>
       {isLoggedIn ? (
-        <GreetingInfo>See your contats` info on eponymous page</GreetingInfo>
+        <GreetingInfo>Check your records in Contacts page </GreetingInfo>
       ) : (
         <GreetingInfo>Please log in or arrange registration</GreetingInfo>
       )}
